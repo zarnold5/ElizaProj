@@ -5,8 +5,9 @@
 ;;;; File eliza.lisp: Advanced version of Eliza.
 ;;; Has more rules, and accepts input without parens.
 
-(requires "eliza1")
-
+;(requires "eliza1")
+(load "auxfns")
+(load "eliza1")
 ;;; ==============================
 
 (defun read-line-no-punct ()

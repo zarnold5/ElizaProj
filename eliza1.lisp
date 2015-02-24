@@ -110,14 +110,17 @@
     (print 'eliza>)
     (write (flatten (use-eliza-rules (read))) :pretty t)))
 
+(defparameter *matches* '())
+
 (defun use-eliza-rules (input)
   "Find some rule with which to transform the input."
   (some #'(lambda (rule)
-            (let ((result (pat-match (rule-pattern rule) input)))
+            (let ((result (pat-match (rule-pattern rule) input *matches*)))
               (if (not (eq result fail))
                   (sublis (switch-viewpoint result)
                           (random-elt (rule-responses rule))))))
-        *eliza-rules*))
+        *eliza-rules*)
+  (princ *matches*))
 
 (defun switch-viewpoint (words)
   "Change I to you and vice versa, and so on."
