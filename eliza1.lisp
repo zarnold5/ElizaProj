@@ -118,13 +118,12 @@
   (push input *matches*)
   (princ *matches*)
   (some #'(lambda (rule)
-            (let ((result (pat-match (rule-pattern rule) input *matches*)))
+            (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
                   (sublis (switch-viewpoint result)
                           (random-elt (rule-responses rule))
 			  ))))
-        *eliza-rules*)
-)
+        *eliza-rules*))
 
 (defun switch-viewpoint (words)
   "Change I to you and vice versa, and so on."
