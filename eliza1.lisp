@@ -110,8 +110,13 @@
     (print 'eliza>)
     (write (flatten (use-eliza-rules (read))) :pretty t)))
 
-(defparameter *matches* '(
-(I do not understand you.) 
+(defparameter *matches* '( ;;; repeat for increased likelyhood
+(Do I look like a bitch? Do I look like a bitch!? Then why you trying to fuck me like a bitch?) 
+(Do I look like a bitch? Do I look like a bitch!? Then why you trying to fuck me like a bitch?) 
+(Do I look like a bitch? Do I look like a bitch!? Then why you trying to fuck me like a bitch?) 
+(ENGLISH motherfucker - DO YOU SPEAK IT?)
+(ENGLISH motherfucker - DO YOU SPEAK IT?)
+(ENGLISH motherfucker - DO YOU SPEAK IT?)
 ))
 
 (defparameter already-done '())
@@ -123,7 +128,7 @@
 ;(let ((need-to-add (find input already-done)))
     (if (equal need-to-add nil)
 	(progn
-	  (setq options '((Please elaborate on that point.)(Please expand on that.)(Can you continue with that thought?)))
+	  (setq options '((That was some fucked up repugnant assed shit.)(Please expand on that.)(Can you continue with that thought?)))
 	  
 	  (setq phrase (append (append `(Do you remember when you said \") (append input (append '(\" to me earlier?))))
 			       (random-elt options)))
