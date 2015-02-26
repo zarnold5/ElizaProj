@@ -116,7 +116,7 @@
 
 (defparameter already-done '())
 
-;;; This function memorizes a succesfully matechd phrase and adds it to the global
+;;; This function memorizes a succesfully matched phrase and adds it to the global
 ;;; list for later recall.
 (defun memorize (input)
   (let ((need-to-add (find input already-done :test #'equal)))

@@ -21,12 +21,43 @@
 
 ;;; ==============================
 
+;;; we are using this function to fix apostophes in the input
+(defun quote-replace (input)
+  (if (>= (length input) 2)
+      (cond
+       ((and (equal (first input) 'don)
+	     (equal (second input) (quote 't)))
+	   (append '(do not) (synonym-replace (cdr (cdr input)))))
+       ((and (equal (first input) 'i)
+	     (equal (second input) (quote 'm)))
+	   (append '(i am) (synonym-replace (cdr (cdr input)))))
+       ((and (equal (first input) 'isn)
+	     (equal (second input) (quote 't)))
+	   (append '(is not) (synonym-replace (cdr (cdr input)))))
+       ((and (equal (first input) 'you)
+	     (equal (second input) (quote 're)))
+	   (append '(you are) (synonym-replace (cdr (cdr input)))))
+       ((equal (first input) (quote 's))
+	(cons 'is (synonym-replace (cdr input))))
+       (T (cons (first input) (synonym-replace (cdr input)))))
+    input)
+  )
+
+(defun synonym-replace (input)
+  (sublis '(
+	    (nope . no)
+	    )
+          input))
+
+;;; changed to use the fixed-input when calling use-eliza-rules
 (defun eliza ()
   "Respond to user input using pattern matching rules."
   (loop
-    (print 'eliza>)
+    (print 'ELIZA>)
     (let* ((input (read-line-no-punct))
-           (response (flatten (use-eliza-rules input))))
+	   (fixed-input (quote-replace (synonym-replace input)))
+           (response (flatten (use-eliza-rules fixed-input))))
+      (princ fixed-input)
       (print-with-spaces response)
       (if (equal response '(good bye)) (RETURN)))))
 
@@ -44,9 +75,13 @@
 
 ;;; ==============================
 
+
+
 (defparameter *eliza-rules*
  '((((?* ?x) hello (?* ?y))      
     (How do you do.  Please state your problem.))
+   (((?* ?x) your name)
+    (My name is not important))
    (((?* ?x) computer (?* ?y))
     (Do computers worry you?) (What do you think about machines?)
     (Why do you mention computers?)
