@@ -199,7 +199,7 @@
 	    (holy . bible)
 	    (god . bible)
 	    (jesus . bible)
-	    righteous . bible)
+	    (righteous . bible)
 	    )
           input))
 
