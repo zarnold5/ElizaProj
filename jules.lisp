@@ -196,6 +196,10 @@
 	    (dejected . sad)
 	    (glum . sad)
 	    (since . because)
+	    (holy . bible)
+	    (god . bible)
+	    (jesus . bible)
+	    righteous . bible)
 	    )
           input))
 
