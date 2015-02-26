@@ -110,24 +110,47 @@
     (print 'eliza>)
     (write (flatten (use-eliza-rules (read))) :pretty t)))
 
-(defparameter *matches* '())
+(defparameter *matches* '(
+(I do not understand you.) 
+))
+
+(defparameter already-done '())
+
+;;; This function memorizes a succesfully matechd phrase and adds it to the global
+;;; list for later recall.
+(defun memorize (input)
+  (let ((need-to-add (find input already-done :test #'equal)))
+;(let ((need-to-add (find input already-done)))
+    (if (equal need-to-add nil)
+	(progn
+	  (setq options '((Please elaborate on that point.)(Please expand on that.)(Can you continue with that thought?)))
+	  
+	  (setq phrase (append (append `(Do you remember when you said \") (append input (append '(\" to me earlier?))))
+			       (random-elt options)))
+	  (push input already-done)
+	  (push phrase *matches*)))))
+
 
 (defun use-eliza-rules (input)
   "Find some rule with which to transform the input."
 
-  (push input *matches*)
-  (princ *matches*)
   (some #'(lambda (rule)
             (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
-                  (sublis (switch-viewpoint result)
-                          (random-elt (rule-responses rule))
-			  ))))
+		    (cond  ;(T (princ result));(T (random-elt *matches*))
+		     ((equal (car (random-elt (rule-responses rule))) 'no-result)
+		      (progn
+			(random-elt *matches*)))
+		      (T (progn 
+			(memorize input)
+			(sublis (switch-viewpoint result)
+			      (random-elt (rule-responses rule))))))
+		    )))
         *eliza-rules*))
 
 (defun switch-viewpoint (words)
   "Change I to you and vice versa, and so on."
-  (sublis '((I . you) (you . I) (me . you) (am . are))
+  (sublis '((I . you) (you . I) (you . me) (me . you) (am . are))
           words))
 
 ;;; ==============================
