@@ -128,7 +128,7 @@
 ;(let ((need-to-add (find input already-done)))
     (if (equal need-to-add nil)
 	(progn
-	  (setq options '((That was some fucked up repugnant assed shit.)(Please expand on that.)(Can you continue with that thought?)))
+	  (setq options '((That was some fucked up repugnant assed shit.)(I am not sure I liked that.)(Please expand on that.)(Can you continue with that thought?)))
 	  
 	  (setq phrase (append (append `(Do you remember when you said \") (append input (append '(\" to me earlier?))))
 			       (random-elt options)))
