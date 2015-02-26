@@ -1,1 +1,5 @@
-ELIZA
+Zach and Judson's project 5.
+A simulation of jules winfield. 
+
+(load "jules") -> will display a demostration after loading our code
+(jules) -> will start a conversation with jules
