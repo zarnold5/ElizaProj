@@ -23,29 +23,179 @@
 
 ;;; we are using this function to fix apostophes in the input
 (defun quote-replace (input)
-  (if (>= (length input) 2)
+  (if (> (length input) 1)
       (cond
        ((and (equal (first input) 'don)
 	     (equal (second input) (quote 't)))
-	   (append '(do not) (synonym-replace (cdr (cdr input)))))
-       ((and (equal (first input) 'i)
-	     (equal (second input) (quote 'm)))
-	   (append '(i am) (synonym-replace (cdr (cdr input)))))
+	(append '(do not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'didn)
+	     (equal (second input) (quote 't)))
+	(append '(do not) (quote-replace (cdr (cdr input)))))
+       
+       ((and (equal (first input) 'doesn)
+	     (equal (second input) (quote 't)))
+	(append '(does not) (quote-replace (cdr (cdr input)))))
+       
+       ((and (equal (first input) 'hadn)
+	     (equal (second input) (quote 't)))
+	(append '(had not) (quote-replace (cdr (cdr input)))))
+       
+       ((and (equal (first input) 'hasn)
+	     (equal (second input) (quote 't)))
+	   (append '(has not) (quote-replace (cdr (cdr input)))))
+
        ((and (equal (first input) 'isn)
 	     (equal (second input) (quote 't)))
-	   (append '(is not) (synonym-replace (cdr (cdr input)))))
-       ((and (equal (first input) 'you)
-	     (equal (second input) (quote 're)))
-	   (append '(you are) (synonym-replace (cdr (cdr input)))))
+	   (append '(is not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'haven)
+	     (equal (second input) (quote 't)))
+	   (append '(have not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'aren)
+	     (equal (second input) (quote 't)))
+	   (append '(are not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'let)
+	     (equal (second input) (quote 's)))
+	   (append '(let us) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'shouldn)
+	     (equal (second input) (quote 't)))
+	   (append '(should not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'couldn)
+	     (equal (second input) (quote 't)))
+	   (append '(could not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'wouldn)
+	     (equal (second input) (quote 't)))
+	   (append '(would not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'mightn)
+	     (equal (second input) (quote 't)))
+	   (append '(might not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'mustn)
+	     (equal (second input) (quote 't)))
+	   (append '(must not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'weren)
+	     (equal (second input) (quote 't)))
+	   (append '(were not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'can)
+	     (equal (second input) (quote 't)))
+	   (append '(can not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'won)
+	     (equal (second input) (quote 't)))
+	   (append '(will not) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'wish)
+	     (equal (second input) 'for))
+	   (cons 'want (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'hope)
+	     (equal (second input) 'for))
+	   (cons 'want (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'aspire)
+	     (equal (second input) 'to))
+	   (cons 'want (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'used)
+	     (equal (second input) 'to)
+	     (equal (second input) 'be))
+	(cons 'was (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'i)
+	     (equal (second input) (quote 'm)))
+	   (append '(i am) (quote-replace (cdr (cdr input)))))
+
+       ((and (equal (first input) 'isn)
+	     (equal (second input) (quote 't)))
+	   (append '(is not) (quote-replace (cdr (cdr input)))))
+
        ((equal (first input) (quote 's))
-	(cons 'is (synonym-replace (cdr input))))
-       (T (cons (first input) (synonym-replace (cdr input)))))
+	(cons 'is (quote-replace (cdr input))))
+
+       ((equal (first input) (quote 'll))
+	(cons 'will (quote-replace (cdr input))))
+
+       ((equal (first input) (quote 're))
+	(cons 'are (quote-replace (cdr input))))
+
+       ((equal (first input) (quote 've))
+	(cons 'have (quote-replace (cdr input))))
+
+       ((equal (first input) (quote 'em))
+	(cons 'them (quote-replace (cdr input))))
+
+       ((equal (first input) (quote 'd))
+	(cons 'did (quote-replace (cdr input))))
+
+       (T (cons (first input) (quote-replace (cdr input)))))
+
     input)
   )
 
 (defun synonym-replace (input)
   (sublis '(
+	    (hi . hello)
+	    (hola . hello)
+	    (yo . hello)
+	    (hey . hello)
+	    (howdy . hello)
+	    (aloha . hello)
 	    (nope . no)
+	    (yeah . yes)
+	    (yep . yes)
+	    (nah . no)
+	    (naw . no)
+	    (similar . alike)
+	    (identical . same)
+	    (equal . same)
+	    (somebody . someone)
+	    (everbody . everyone)
+	    (maybe . perhaps)
+	    (consistently . always)
+	    (fantasize . dream)
+	    (fantasized . dreamt)
+	    (imagine . dream)
+	    (imagined . dreamt)
+	    (apologize . sorry)
+	    (recall . remember)
+	    (recollect . remember)
+	    (muse . dream)
+	    (mused . dreamt)
+	    (daydream . dream)
+	    (daydreamed . dreamt)
+	    (mom . mother)
+	    (mama . mother)
+	    (ma . mother)
+	    (mommy . mother)
+	    (dad . father)
+	    (daddy . father)
+	    (dada . father)
+	    (papa . father)
+	    (desire . want)
+	    (lust . want)
+	    (happy . glad)
+	    (pleased . glad)
+	    (delighted . glad)
+	    (overjoyed . glad)
+	    (thrilled . glad)
+	    (elated . glad)
+	    (unhappy . sad)
+	    (miserable . sad)
+	    (depressed . sad)
+	    (gloomy . sad)
+	    (sorrowful . sad)
+	    (dejected . sad)
+	    (glum . sad)
+	    (since . because)
 	    )
           input))
 
@@ -57,7 +207,8 @@
     (let* ((input (read-line-no-punct))
 	   (fixed-input (quote-replace (synonym-replace input)))
            (response (flatten (use-eliza-rules fixed-input))))
-      (princ fixed-input)
+      (princ input)(terpri)
+      (princ fixed-input)(terpri)
       (print-with-spaces response)
       (if (equal response '(good bye)) (RETURN)))))
 
@@ -262,4 +413,3 @@
 (terpri)
 (princ "DO YOU REMEMBER WHEN YOU SAID \" FUCK YOU \" TO ME EARLIER? THAT WAS SOME FUCKED UP REPUGNANT ASSED SHIT.")
 (terpri)
-
